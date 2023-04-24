@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriBOT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/indexcss.css') }}">
+</head>
+
+<body>
+    <div class="containerTriagem container-fluid">
+
+        <div class="container-md ">
+            <h1 class="text-center fs-2 fs-md-4 mb-3">Triagem Nutricional</h1>
+            <form id="myForm" action="/enviar_dados" method="POST">
+                <div class="form-group row g-3 g-md-5">
+                    <div class="col mb-3">
+                        <label for="inputPrimeiroNome" class="form-label">Nome</label>
+                        <input type="text" class="form-control" name="inputPrimeiroNome" id="inputPrimeiroNome"
+                            aria-describedby="inputPrimeiroNome">
+                    </div>
+                    <div class="col mb-3">
+                        <label for="inputSegundoNome" class="form-label">Sobrenome</label>
+                        <input type="text" class="form-control" name="inputSegundoNome" id="inputSegundoNome"
+                            aria-describedby="inputSegundoNome">
+                    </div>
+                </div>
+                <div class="form-group row g-3 g-md-5">
+                    <div class="col mb-3">
+                        <label for="inputPeso" class="form-label">Peso</label>
+                        <input type="number" class="form-control" name="inputPeso" id="inputPeso"
+                            aria-describedby="inputPeso">
+                    </div>
+                    <div class="col mb-3">
+                        <label for="inputAltura" class="form-label">Altura</label>
+                        <input type="number" class="form-control" name="inputAltura" id="inputAltura"
+                            aria-describedby="inputAltura">
+                    </div>
+                </div>
+
+                <div class="form-group row g-3 g-md-5">
+                    <div class="col mb-3">
+                        <label for="inputDtNascimento" class="form-label">Data de Nascimento</label>
+                        <input type="date" class="form-control" name="inputDtNascimento" id="inputDtNascimento"
+                            aria-describedby="inputDtNascimento">
+                    </div>
+                    <div class="col mb-3">
+                        <label for="inputObjetivo">Objetivo</label>
+                        <select class="form-control" name="inputObjetivo" id="inputObjetivo">
+                            <option>Ganho de Massa</option>
+                            <option>Emagrecimento</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Aceito os termos e condições.
+                    </label>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="inputEmail" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" id="inputEmail" name="inputEmail"
+                        aria-describedby="inputEmail">
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="validateForm(event)">Enviar</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function validateForm(event) {
+            event.preventDefault();
+            const form = document.getElementById('myForm');
+            const inputPrimeiroNome = document.getElementById('inputPrimeiroNome');
+            const inputSegundoNome = document.getElementById('inputSegundoNome');
+            const inputPeso = document.getElementById('inputPeso');
+            const inputAltura = document.getElementById('inputAltura');
+            const inputDtNascimento = document.getElementById('inputDtNascimento');
+            const inputEmail = document.getElementById('inputEmail');
+            const flexCheckDefault = document.getElementById('flexCheckDefault');
+
+            if (!inputPrimeiroNome.value || !inputSegundoNome.value || !inputPeso.value || !inputAltura.value ||
+                !inputDtNascimento.value || !inputEmail.value || !flexCheckDefault.checked) {
+                alert('Por favor, preencha todos os campos e aceite os termos e condições.');
+            } else {
+                form.submit();
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-eMNCOe7tC1doHpGoJtKh7z7lGz7fuP4F8nfdFvAOA6Gg/z6Y5J6XqqyGXYM2ntX1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js"
+        integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqFjcJ6pajs/rfdfs3SO+kD4Ck5BdPtF+to8xMp9Mvc6f"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

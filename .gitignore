@@ -1,0 +1,11 @@
+# Arquivo de backup
+backup.txt
+# Arquivo de credenciais
+.env
+
+# Arquivo de teste em templates
+templates/index2.html
+templates/chat.html
+
+# Arquivo de teste em static
+static/css/chatbot.css

@@ -1,0 +1,71 @@
+# -*- coding: utf-8 -*-
+from flask import Flask, render_template, request, session, jsonify
+from flask_mail import Mail, Message
+import openai
+from model import Pessoa
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+app = Flask(__name__)
+
+# Configure a API GPT-3
+openai.api_key = "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"
+
+# Configure o Flask-Mail
+app.config.update(
+    MAIL_SERVER='smtp.office365.com',
+    MAIL_PORT=587,
+    MAIL_USE_TLS=True,
+    MAIL_USERNAME=os.environ.get('MAIL_USERNAME'),
+    MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
+)
+
+mail = Mail(app)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/enviar_dados', methods=['POST'])
+def enviar_dados():
+    primeiro_nome = request.form.get('inputPrimeiroNome')
+    segundo_nome =  request.form.get('inputSegundoNome')
+    peso = request.form.get('inputPeso')
+    altura = request.form.get('inputAltura')
+    dt_nascimento = request.form.get('inputDtNascimento')
+    objetivo = request.form.get('inputObjetivo')
+    email = request.form.get('inputEmail')
+    checkbox_value = request.form.get('flexCheckDefault')
+    pessoa = Pessoa(primeiro_nome,segundo_nome,peso,altura,dt_nascimento,objetivo,email)
+
+    if checkbox_value == 'on':
+        prompt = f"Como um assistente de inteligência artificial, crie um plano nutricional personalizado, em formato markdown, para alguém chamado {pessoa.primeiro_nome} {pessoa.segundo_nome}, que tem como objetivo {pessoa.objetivo}. Considere que {pessoa.primeiro_nome} pesa {pessoa.peso} kg, tem {pessoa.altura} cm de altura e nasceu em {pessoa.dt_nascimento}. Por favor, liste várias opções de proteínas, gorduras e carboidratos separadas por vírgulas, juntamente com suas respectivas quantidades em gramas para cada refeição. Inclua opções de refeições e substituições para acomodar possíveis restrições alimentares. Lembre-se de que este plano é apenas para fins educacionais e não substitui o aconselhamento de um profissional nutricionista. Siga o formato a seguir para a resposta:\n\n## Plano nutricional para {pessoa.primeiro_nome} {pessoa.segundo_nome}\n\n### Objetivo: {pessoa.objetivo}\n\nPeso: {pessoa.peso} kg\n\nAltura: {pessoa.altura} cm\n\nNascimento: {pessoa.dt_nascimento}\n\n#### Refeições\n\n- Café da manhã:\n  - Opções de proteínas: (exemplo: 30g de frango, 50g de peixe, 40g de carne)\n  - Opções de gorduras: (exemplo: 10g de azeite, 15g de manteiga, 20g de abacate)\n  - Opções de carboidratos: (exemplo: 100g de arroz, 150g de batata, 120g de macarrão)\n\n... (continue listando as refeições e opções de alimentos)"
+        resposta_gpt3 = gerar_resposta_gpt3(prompt)
+        msg = Message("Plano Nutricional", sender=os.environ.get('MAIL_USERNAME'), recipients=[email])
+        msg.body = resposta_gpt3
+        mail.send(msg)
+    
+        return jsonify({"status": "success", "message": "E-mail enviado com sucesso!"})
+    else:
+        return jsonify({"status": "error", "message": "É necessário aceitar os termos de uso!"})
+
+def gerar_resposta_gpt3(texto_prompt):
+    openai.api_key = "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"
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=texto_prompt,
+        max_tokens=1200,  # Aumente a quantidade de tokens para obter uma resposta mais detalhada
+        n=1,
+        stop=None
+        temperature=1.0,  # Diminua a temperatura para tornar a resposta mais focada e coerente
+    )
+
+    print("Resposta GPT-3:", response)  # Imprima a resposta completa da GPT-3 para depuração
+
+    resposta = response.choices[0].text.strip()
+    return resposta
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriBOT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+    </head>
+
+<body>
+    
+    <div class="containerChat container-fluid d-flex flex-column">
+        <div class="containerMensagem flex-grow-1">
+            <div class="message m-2 message-question">It is a long </div>
+            <div class="message m-2 message-answer d-flex justify-content-end ">Lorem Ipsum is .</div>
+            <div class="message m-2 message-answer d-flex justify-content-end ">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
+
+        </div>
+        <div class="input-group d-flex justify-content-end mt-3 mb-3">
+            <input type="text" class="form-control" id="inputSegundoNome"
+            aria-describedby="inputSegundoNome">
+            <button type="button" class="btn btn-primary">
+                Pesquisar
+            </button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
